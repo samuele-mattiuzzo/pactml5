@@ -10,15 +10,15 @@ function Grid(config) {
   
   // Width
   var width = config.width;
-  if(width === null || typeof width !== "number") { width = 10; }
+  if(width === null || typeof width !== "number") { width = 19; }
 
   // Height
   var height = config.height;
-  if(height === null || typeof height !== "number") { height = 10; }
+  if(height === null || typeof height !== "number") { height = 22; }
   
   // The step scale
   var scale = config.scale;
-  if(scale === null || typeof scale !== "number") { scale = 10; }
+  if(scale === null || typeof scale !== "number") { scale = 27; }
   
   // Init the canvas id
   var canvasId = config.canvas;
@@ -48,9 +48,39 @@ function Grid(config) {
       var ctx = canvas.getContext('2d');
       ctx.clearRect(0,0,width*scale,height*scale);
       ctx.drawImage(img,x,y);
+    },
+
+    drawBack: function(){
+      var canvas = document.getElementById(canvasId);
+      if(canvas === null || !canvas.getContext) {
+        return;
+        console.log('NULL CANVAS');
+      }
+      
+      var ctx = canvas.getContext('2d');
+      var back = new Image();
+      back.onload = function() { ctx.drawImage(back, 0, 0); console.log(back);  };
+      back.src = 'imgs/packground.png';
+      console.log(back);
+    },
+
+    //background-image: url('../imgs/packground.png');
+    rotate: function(){
+        var canvas = document.getElementById(canvasId);
+        if(canvas === null || !canvas.getContext) {
+            return;
+        }
+
+        var ctx = canvas.getContext('2d');
+        ctx.translate(canvas.width - 1, 0);
+        ctx.rotate(Math.PI / 2);
+        ctx.clearRect(0,0,width*scale,height*scale);
+        var back = new Image();
+        back.onload = function() { ctx.drawImage(back, 0, 0);  };
+        back.src = 'imgs/packground.png';
     }
+  }
   };
-}
 
 // The pacman prototype
 function Pacman(config) {
@@ -66,7 +96,7 @@ function Pacman(config) {
   
   // Init the grid
   var grid = config.grid;
-  if(grid === null) { grid = new Grid(10, 10); }
+  if(grid === null) { grid = new Grid(19, 22); }
   
   // Pacman image
   var img = new Image();
@@ -114,7 +144,7 @@ function Pacman(config) {
     
     // Animer
     moving=true;
-    interval=setInterval(draw, 10);
+    interval=setInterval(draw, 5);
     
   };
   
@@ -154,8 +184,8 @@ function Pacman(config) {
     }
     
     // Check impossible moves
-    if( (x===1 && dir===DIRECTIONS.left) || (x===grid.width()-1 && dir===DIRECTIONS.right) ||
-      (y===1 && dir===DIRECTIONS.up) || (y===grid.height()-1 && dir===DIRECTIONS.bottom)) {
+    if( (x===1 && dir===DIRECTIONS.left) || (x===grid.width() && dir===DIRECTIONS.right) ||
+      (y===1 && dir===DIRECTIONS.up) || (y===grid.height() && dir===DIRECTIONS.bottom)) {
       return;
     }
     
@@ -178,8 +208,8 @@ function Pacman(config) {
     // Animate the pacman
     animateMove(x, y, dir, absRealSteps, grid);
     
-    // Update position
-    if(dir === DIRECTIONS.left || dir === DIRECTIONS.right) {
+    // Update position 
+   if(dir === DIRECTIONS.left || dir === DIRECTIONS.right) {
       x = realSteps+x;
     } else {
       y = realSteps+y;
@@ -236,7 +266,9 @@ function Pacman(config) {
   };
 }
 
-var grid = new Grid({width:20, height:20, canvas:"gamespace"});
+
+var grid = new Grid({width:19, height:22, canvas:"gamespace"});
 var pacman = new Pacman({grid:grid, image:'imgs/pacman-left.gif'});
+
+grid.drawBack();
 console.log(grid);
-pacman.draw;
