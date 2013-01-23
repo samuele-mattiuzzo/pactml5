@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf8" />
+  <title>Pacman 5 !</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<h1>Pacman 5 !</h1>
+<h3>A pacman game with HTML5, CSS3 and Javascript (and a twist)</h3>
+
+<!-- The game space -->
+<canvas id="gamespace"></canvas>
+
+<input type="hidden" id="directions" />
+
+<!-- The javascript file -->
+<script type="text/javascript" src="js/pacman.js"></script>
+
+<script type="text/javascript">
+
+/* Associating Pacman moves to keyboard nivigation keys */
+var moving = false;
+var interval = null;
+var currentDirection = null;
+
+/* On key down */
+var kDown = function(e) {
+  
+  // Get the direction
+  var direction = e.keyCode - 36;
+  
+  // Check direction and move
+  if(direction >= 1 && direction <= 4 && moving===false) {
+    moving = true;
+    interval = setInterval("pacman.move(" + direction + ",1)",1);
+  }
+}
+
+/* Stop moving */
+var kUp = function(e) {
+  moving = false;
+  clearInterval(interval);
+}
+
+/* Associate functions with keyboard events */
+window.onkeydown = kDown;
+window.onkeyup = kUp;
+</script>
+
+</body>
+</html>
