@@ -14,7 +14,7 @@ function Grid(config) {
 
   // Height
   var height = config.height;
-  if(height === null || typeof height !== "number") { height = 22; }
+  if(height === null || typeof height !== "number") { height = 21; }
   
   // The step scale
   var scale = config.scale;
@@ -96,7 +96,7 @@ function Pacman(config) {
   
   // Init the grid
   var grid = config.grid;
-  if(grid === null) { grid = new Grid(19, 22); }
+  if(grid === null) { grid = new Grid(19, 21); }
   
   // Pacman image
   var img = new Image();
@@ -267,7 +267,7 @@ function Pacman(config) {
 }
 
 
-var grid = new Grid({width:19, height:22, canvas:"gamespace"});
+var grid = new Grid({width:19.5, height:19.5, canvas:"gamespace"});
 var pacman = new Pacman({grid:grid, image:'imgs/pacman-left.gif'});
 
 grid.drawBack();

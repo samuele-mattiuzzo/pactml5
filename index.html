@@ -42,7 +42,7 @@ var kDown = function(e) {
   // Check direction and move
   if((direction >= 1 && direction <= 4 || direction === 46) && moving===false) {
     moving = true;
-    interval = setInterval("pacman.move(" + direction + ",1)",0.5);
+    interval = setInterval("pacman.move(" + direction + ",1)", 1);
   }
 }
 

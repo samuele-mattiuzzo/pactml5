@@ -1,7 +1,7 @@
 @font-face {	font-family: Pacfont; src: url('../fonts/PAC-FONT.TTF');	}
 @font-face {	font-family: Bitfont; src: url('../fonts/BIT-FONT.TTF');	}
 
-body {	background-color: #000;	}
+body {	background-color: #333;}
 
 /* Main viewport */
 div#viewport {
@@ -14,8 +14,6 @@ div#viewport h3 {	font-family: Bitfont, sans-serif; color: yellow;	}
 
 /* Canvas where the actual game is */
 canvas#gamespace {
-	
-	border:	2px solid #333;
 	width:	560px;
 	height:	514px;
 	margin: 3% 0 3% 0;
