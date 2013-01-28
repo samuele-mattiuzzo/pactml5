@@ -1,7 +1,7 @@
 @font-face {	font-family: Pacfont; src: url('../fonts/PAC-FONT.TTF');	}
 @font-face {	font-family: Bitfont; src: url('../fonts/BIT-FONT.TTF');	}
 
-body {	background-color: #333;}
+body {	background-color: #333; font-family: Bitfont, sans-serif; color: yellow;}
 
 /* Main viewport */
 div#viewport {
@@ -14,9 +14,9 @@ div#viewport h3 {	font-family: Bitfont, sans-serif; color: yellow;	}
 
 /* Canvas where the actual game is */
 canvas#gamespace {
-	width:	560px;
-	height:	514px;
-	margin: 3% 0 3% 0;
+	margin: 3% 3% 3% 30%;
+	width: 1000px;
+	padding: 5px;
 }
 
 /* Footer */
@@ -24,6 +24,19 @@ footer {
 	font-family: Bitfont, sans-serif; 
 	text-align: center;
 	color: yellow;
+}
+
+div#hints a { color: yellow; text-decoration: none; font-weight: bold; }
+div#hints a:hover {	text-decoration: underline;	}
+div#hints p { 
+	font-style: italic; 
+	font-weight: bold;
+	color:white; 
+	display: none; 
+	background-color: black; 
+	width: 100%;
+	padding: 5px 0px 5px 0px;
+	margin-bottom: 0px;
 }
 
 footer a {	color: yellow; text-decoration: none;	}

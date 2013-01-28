@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf8" />
-  <title>PACTML</title>
+  <title>A pacman game with HTML5, CSS3 and Javascript (and a twist!!!)</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -12,49 +12,36 @@
 
   <h1>pacTML 9</h1>
   <h3>A pacman game with HTML5, CSS3 and Javascript (and a twist!!!)</h3>
+  <div id="hints">
+
+    <a id="hintlink" onclick="toggle_visibility('hint'); return false;">
+      Hints?
+    </a>
+
+    <p id="hint" style="display: hidden;"> 
+      Pressing "R" will force a 90° right-rotation 
+    </p>
+
+  </div>
   <canvas id="gamespace"></canvas>
 
 </div>
 
 <!-- The javascript file -->
-<script type="text/javascript" src="js/pacman.js"></script>
+<script type="text/javascript" src="js/pactml.js"></script>
 
 <script type="text/javascript">
-
-/* Associating Pacman moves to keyboard nivigation keys */
-
-var moving = false;
-var interval = null;
-var currentDirection = null;
-
-;/* On key down */
-var kDown = function(e) {
-  
-  // Get the direction
-  var direction = e.keyCode - 36;
-  
-  // Rotation, key 'r'
-  if ( direction === 46 && moving === false) {
-    moving = true;
-    interval = setInterval("grid.rotate()", 65);
-  }
-
-  // Check direction and move
-  if((direction >= 1 && direction <= 4 || direction === 46) && moving===false) {
-    moving = true;
-    interval = setInterval("pacman.move(" + direction + ",1)", 1);
-  }
-}
-
-/* Stop moving */
-var kUp = function(e) {
-  moving = false;
-  clearInterval(interval);
-}
-
-/* Associate functions with keyboard events */
-window.onkeydown = kDown;
-window.onkeyup = kUp;
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       var arrow = document.getElementById('arrow');
+       var link = document.getElementById('hintlink');
+       if(e.style.display == 'block')
+          { e.style.display = 'none'; link.text = 'Hints?'; }
+       else
+          { e.style.display = 'block'; link.text = '-> Click to hide <-'; }
+    }
+//-->
 </script>
 
 </body>
