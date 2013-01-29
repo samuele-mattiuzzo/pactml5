@@ -16,6 +16,7 @@ div#viewport h3 {	font-family: Bitfont, sans-serif; color: yellow;	}
 canvas#gamespace {
 	margin: 3% auto;
 	width: 50%;
+	border: 2px solid black;
 }
 
 /* Footer */

@@ -169,6 +169,7 @@ var gravityFall = function(modifier) {
 var keysDown = {};
 
 addEventListener("keydown", function (e) {
+		console.log(e.keyCode);
 		keysDown[e.keyCode] = true;
 }, false);
 
@@ -226,7 +227,7 @@ var findValidPos = function(){
 
 var gui = function() {
 	context.fillStyle = "yellow";
-  	context.font = "16px Arial, sans-serif";
+  	context.font = "12px BIT-FONT, sans-serif";
   	context.fillText("PLAYER: " + USER, canvas.width-130, 25);
   	context.fillText("SCORE: " + SCORE, canvas.width-130, 39);
   	context.fillText("LEVEL: " + LEVEL, canvas.width-130, 53);
@@ -245,7 +246,6 @@ var update = function (modifier) {
 	if (82 in keysDown) {
 		var nxy = findValidPos();
 		grid[nxy[1]][nxy[0]] = 10;
-
 		grid = grid.rightRotation();
 		context.clearRect ( 0 , 0 , canvas.width , canvas.height );
 		drawGrid();
@@ -268,10 +268,12 @@ var update = function (modifier) {
 		else if (39 in keysDown && isValidMove(hero.x, hero.y, 39)) { // RIGHT
 				hero.x += hero.speed * modifier;
 		}
+		checkEat(Math.floor(hero.x), Math.floor(hero.y));
 		
 	}
+	
 	}
-	checkEat(Math.floor(hero.x), Math.floor(hero.y));
+	
 	drawPac(hero.x, hero.y);
 	gui();
 };
@@ -281,14 +283,50 @@ var reset = function () {
 	hero.y = 1;
 };
 
+
+var START = false;
+
+var newGameGui = function() {
+	context.fillStyle = "yellow";
+  	context.font = "16px BIT-FONT, sans-serif";
+  	context.fillText("PACTML!!", canvas.width/2.8, 25);
+  	context.fillText("Press N to start a new game", canvas.width/7, 45);
+}
+
+var gameOverGui = function() {
+	context.fillStyle = "yellow";
+  	context.font = "16px BIT-FONT, sans-serif";
+  	context.fillText("GAME OVER", canvas.width/3, 25);
+  	context.fillText("FINAL SCORE: " + SCORE, canvas.width/3.3, 51);
+  	context.fillText("LEVEL: " + LEVEL, canvas.width/2.5, 67);
+  	context.fillText("Press N to start a new game", canvas.width/6.5, 103);
+}
+
 // MAIN LOOP
 var main = function(){
 	var now = Date.now();
 	var delta = now - then;
 	
+	if (78 in keysDown && !START){
+		START = true;
+		LIVES_LEFT = LIVES;
+		context.clearRect ( 0 , 0 , canvas.width , canvas.height );
+	} else if (81 in keysDown && START) {
+		START = false;
+		LIVES_LEFT = 0;
+		context.clearRect ( 0 , 0 , canvas.width , canvas.height );
+	}
+
+	if (!START){
+		if (LIVES_LEFT == 0)
+			gameOverGui();
+		else
+			newGameGui();
+	} else {
+		drawGrid();
+		update(delta / 1000);
+	}
 	
-	drawGrid();
-	update(delta / 1000);
 
 	then = now;
 }
