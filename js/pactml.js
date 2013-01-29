@@ -11,6 +11,9 @@ var PILLS_LEFT = 0;
 var LIVES = 3;
 var LIVES_LEFT = LIVES;
 var USER = 'Player';
+var interval = Math.floor((Math.random()*30)+15);
+// record start time
+var startTime = new Date();
 
 var canvas = document.getElementById('gamespace');
 if (canvas.getContext)
@@ -228,22 +231,25 @@ var findValidPos = function(){
 var gui = function() {
 	context.fillStyle = "yellow";
   	context.font = "12px BIT-FONT, sans-serif";
-  	context.fillText("PLAYER: " + USER, canvas.width-130, 25);
+  	context.fillText("PLAYER: " + interval, canvas.width-130, 25);
   	context.fillText("SCORE: " + SCORE, canvas.width-130, 39);
   	context.fillText("LEVEL: " + LEVEL, canvas.width-130, 53);
   	context.fillText("PILLS: " + PILLS_LEFT + "/" + TOTAL_PILLS , canvas.width-130, 67);
   	context.fillText("LIVES: " + LIVES_LEFT + "/" + LIVES , canvas.width-130, 81);
 }
 
-
 // UPDATE 
 var update = function (modifier) {
+	var endTime = new Date();
+	var timeDiff = (endTime - startTime)/1000;
 
 	if (TO_GRAVITATE) {
 		gravityFall(modifier);
 	} else {
 
-	if (82 in keysDown) {
+	if (82 in keysDown || (Math.round(timeDiff % 60) % interval == 0)) {
+
+		interval = Math.floor((Math.random()*45)+15);
 		var nxy = findValidPos();
 		grid[nxy[1]][nxy[0]] = 10;
 		grid = grid.rightRotation();
@@ -251,6 +257,8 @@ var update = function (modifier) {
 		drawGrid();
 		updatePac();
 		TO_GRAVITATE = true;
+		startTime = new Date();
+
 	}
 	else{
 		if (38 in keysDown && isValidMove(hero.x, hero.y, 38)) { // UP
@@ -285,6 +293,7 @@ var reset = function () {
 
 
 var START = false;
+ 
 
 var newGameGui = function() {
 	context.fillStyle = "yellow";
@@ -315,6 +324,7 @@ var main = function(){
 		START = false;
 		LIVES_LEFT = 0;
 		context.clearRect ( 0 , 0 , canvas.width , canvas.height );
+		startTime = new Date();
 	}
 
 	if (!START){
