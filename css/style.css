@@ -14,9 +14,8 @@ div#viewport h3 {	font-family: Bitfont, sans-serif; color: yellow;	}
 
 /* Canvas where the actual game is */
 canvas#gamespace {
-	margin: 3% 3% 3% 30%;
-	width: 1000px;
-	padding: 5px;
+	margin: 3% auto;
+	width: 50%;
 }
 
 /* Footer */
