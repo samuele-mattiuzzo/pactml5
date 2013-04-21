@@ -19,135 +19,16 @@ var canvas = document.getElementById('gamespace');
 if (canvas.getContext)
 	var context = canvas.getContext('2d');
 
-
-// Grid design:
-// 0 : wall
-// 2 : pill
-// 3 : cherry
-// 4 : house door
-// 1 : black background
-var grid = [
-
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-[0, -1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, -1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 4, 0],
-[0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0],
-[0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0],
-[2, 2, 2, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 2, 2, 2],
-[0, 0, 0, 0, 1, 0, 1, 0, 0, 3, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-[2, 2, 2, 2, 1, 1, 1, 0, -1, -1, -1, 0, 1, 1, 1, 2, 2, 2, 2],
-[0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-[2, 2, 2, 0, 1, 0, 1, 1, 1, 2, 1, 1, 1, 0, 1, 0, 2, 2, 2],
-[0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0],
-[0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-[0, 4, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 4, 0],
-[0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0],
-[0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0],
-[0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0],
-[0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
-
-/* END GLOBAL VARIABLES */
-
-var drawBlock = function(fill, i, j, blockSize){
-	context.fillStyle = 'rgb('+fill[0]+','+fill[1]+','+fill[2]+')';
-	context.fillRect((j * blockSize) ,
-                     (i * blockSize) ,
-                      blockSize , blockSize );
-}
-
-// DRAW GAME GRID
-var drawGrid = function() {
-
-    var blockSize = 7;
-    var fill = ['0','0','0'];
-
-	for(var i=0; i<grid.length; i += 1){
-		for(var j=0; j<grid[0].length; j += 1){
-			
-			switch(grid[i][j]) {
-				case 0:
-					// wall
-					drawBlock(['0','0','255'], i, j, blockSize);
-					break;
-
-				case 1:
-					// pill
-					drawBlock(['0','0','0'], i, j, blockSize);
-					drawPill(j,i,['255','255','255']);
-					break;
-
-				case 4:
-					// cherry
-					drawBlock(['0','0','0'], i, j, blockSize);
-					drawPill(j,i,['205','20','31']);
-					break;
-
-				case 3:
-					// ghost house door
-					drawBlock(['255','255','255'], i, j, blockSize);
-					break;
-
-				default:
-					// background and not yet implemented squares
-					drawBlock(['0','0','0'], i, j, blockSize);
-					break;
-			}				
-
-			
-		}
-	}
-
-};
-
-// PACMAN DATA
-var hero = {
-	speed: 9, // PX / sec
-	x: 1,
-	y: 1
-};
-
-// DRAW PILL
-var drawPill = function(x,y,fill){
-	
-  	var blockSize = 7;
-    
-	context.fillStyle = 'rgb('+fill[0]+','+fill[1]+','+fill[2]+')';
-	context.fillRect(
-		(x * blockSize) + 3.3,
-        (y * blockSize) + 3.3,
-        1.5, 1.5 );
-	
-}
-
 // DRAW PACMAN
-var drawPac = function(x,y){
-	
-  	var blockSize = 7;
-    var fill = ['255','238','0'];
-    context.fillStyle = 'rgb('+fill[0]+','+fill[1]+','+fill[2]+')';
-
-	context.fillRect(
-		(x * blockSize) + 1.5,
-        (y * blockSize) + 1.5,
-        3.5, 3.5 );
-
-}
-
 var updatePac = function(){
-	for(var i=0; i<grid.length; i++)
-		for(var j=0; j<grid[0].length; j++)
-			if (grid[i][j] == 10) { 
-				hero.x = j; 
-				hero.y = i; 
-				grid[i][j] = 1; 
-			}
-}
+		for(var i=0; i<grid.length; i++)
+			for(var j=0; j<grid[0].length; j++)
+				if (grid[i][j] == 10) {
+					this.x = j;
+					this.y = i;
+					grid[i][j] = 1;
+				}
+	};
 
 var checkEat = function(x,y) {
 	if (grid[y][x] == 1 || grid[y][x] == 4) {
@@ -273,7 +154,7 @@ var update = function (modifier) {
 				hero.x -= hero.speed * modifier;
 		}
 
-		else if (39 in keysDown && isValidMove(hero.x, hero.y, 39)) { // RIGHT
+		else if (39 in keysDown && isValidMove(hero.x, hero.y, 39)) { //RIGHT
 				hero.x += hero.speed * modifier;
 		}
 		checkEat(Math.floor(hero.x), Math.floor(hero.y));
